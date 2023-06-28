@@ -1,9 +1,9 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./globals.css";
 
 import '@fontsource/roboto/300.css';
-import { Box, InputLabel, MenuItem, Select, Tab, Tabs, Typography } from "@mui/material";
+import { Box, InputLabel, MenuItem, Select, Skeleton, Tab, Tabs, Typography } from "@mui/material";
 
 export default function App() {
 
@@ -44,11 +44,10 @@ function TabLabel({tabIndex, setTabIndex}){
   return (
     <div>
       <RaceSelector />
-      <Tabs value={tabIndex} onChange={handleChange} 
-      textColor="#b600ff">
+      <Tabs value={tabIndex} onChange={handleChange}>
 
-        <Tab value={1} label="Race Results"/>
-        <Tab value={2} label="Lap Times"/>
+        <Tab value={1} label="Race Results" />
+        <Tab value={2} label="Lap Times" />
       </Tabs>
     </div>
   )
@@ -57,22 +56,61 @@ function TabLabel({tabIndex, setTabIndex}){
 function RaceSelector(){
 
   const [season, setSeason] = useState(2023);
+  const [races, setRaces] = useState([]);
+  const [race, setRace] = useState("");
+  const [isLoading, setLoading] = useState(true);
 
   let seasons = new Array();
+  let raceComp;
+
+  const handleSeasonChange = (event) => {
+    setSeason(event.target.value);
+  };
+
+  const handleRaceChange = (event) => {
+    setRace(event.target.value);
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://localhost:2000/races/${season}`).then((res) => res.json())
+    .then((data) => {
+      let arr = [];
+
+      for(let i in data){
+        arr.push(data[i]);
+      }
+
+      setRaces(arr);
+      setRace(arr[0].country);
+      setLoading(false);
+    });
+  }, [season]);
+
+  if (isLoading) {
+    raceComp = <Skeleton variant="text" sx={{ width: '5em', height: '5em' }} />
+  }
+  else {
+    raceComp = <div>
+      <InputLabel>Race</InputLabel>
+      <Select value={race} onChange={handleRaceChange} label="Race">
+        {races.map((iRace) => <MenuItem value={iRace.country}>{iRace.country}</MenuItem>)}
+      </Select>
+    </div>
+  }
 
   for(let i = 1950; i <= 2023; i++){
     seasons.push(i);
   }
 
-  const handleChange = (event) => {
-    setSeason(event.target.value);
-    console.log(event.target.value);
-  };
+  return (<div className="WelcomeContainer">
+    <div className="WelcomeItem">
+      <InputLabel>Season</InputLabel>
+      <Select value={season} onChange={handleSeasonChange} label="Season">
+        {seasons.map((season, index) => <MenuItem value={season}>{season}</MenuItem>)}
+      </Select>
+    </div>
 
-  return (<div>
-    <InputLabel>Season</InputLabel>
-    <Select value={season} onChange={handleChange} label="Season">
-      {seasons.map((season, index) => <MenuItem value={season}>{season}</MenuItem>)}
-    </Select>
+    {raceComp}
   </div>)
 }
