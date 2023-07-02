@@ -17,8 +17,37 @@ body {
   padding: 4em;
 }
 
-.TabLabel{
+.centerData{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.raceSelect{
   align-items:center;
   justify-content: center;
   display: flex;
+}
+
+.resultContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.resultCard{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.resultDiv{
+  display: flex;
+}
+
+.leftResultContent{
+  align-items: start;
+}
+
+.rightResultContent{
+  margin-left: auto;
 }

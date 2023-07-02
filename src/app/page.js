@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./globals.css";
 
 import '@fontsource/roboto/300.css';
-import { Box, InputLabel, MenuItem, Select, Skeleton, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Card, CardContent, InputLabel, MenuItem, Select, Skeleton, Tab, Tabs, Typography } from "@mui/material";
 
 export default function App() {
 
@@ -30,8 +30,22 @@ function DataBlock(){
 
   const [tabIndex, setTabIndex] = useState(1);
 
-  return (<div className="TabLabel">
+  const [season, setSeason] = useState(2023);
+  const [races, setRaces] = useState([]);
+  const [race, setRace] = useState(null);
+  const [results, setResults] = useState([]);
+
+  return (<div>
+    
+    <div className="raceSelect">
+    <RaceSelector season={season} setSeason={setSeason} races={races} setRaces={setRaces} 
+      race={race} setRace={setRace}/>
+    </div>
+
+    <div className="centerData">
     <TabLabel tabIndex = {tabIndex} setTabIndex = {setTabIndex}/>
+    <RaceResults race={race} results={results} setResults={setResults}/>
+    </div>
   </div>)
 }
 
@@ -43,7 +57,6 @@ function TabLabel({tabIndex, setTabIndex}){
 
   return (
     <div>
-      <RaceSelector />
       <Tabs value={tabIndex} onChange={handleChange}>
 
         <Tab value={1} label="Race Results" />
@@ -53,15 +66,12 @@ function TabLabel({tabIndex, setTabIndex}){
   )
 }
 
-function RaceSelector(){
-
-  const [season, setSeason] = useState(2023);
-  const [races, setRaces] = useState([]);
-  const [race, setRace] = useState("");
-  const [isLoading, setLoading] = useState(true);
+function RaceSelector({season, setSeason, races, setRaces, race, setRace}){
 
   let seasons = new Array();
   let raceComp;
+
+  const [isLoading, setLoading] = useState(true);
 
   const handleSeasonChange = (event) => {
     setSeason(event.target.value);
@@ -69,6 +79,7 @@ function RaceSelector(){
 
   const handleRaceChange = (event) => {
     setRace(event.target.value);
+    console.log(event.target.value);
   }
 
   useEffect(() => {
@@ -82,7 +93,7 @@ function RaceSelector(){
       }
 
       setRaces(arr);
-      setRace(arr[0].country);
+      setRace(arr[0].raceId);
       setLoading(false);
     });
   }, [season]);
@@ -94,7 +105,7 @@ function RaceSelector(){
     raceComp = <div>
       <InputLabel>Race</InputLabel>
       <Select value={race} onChange={handleRaceChange} label="Race">
-        {races.map((iRace) => <MenuItem value={iRace.country}>{iRace.country}</MenuItem>)}
+        {races.map((iRace) => <MenuItem key={iRace.raceId} value={iRace.raceId}>{iRace.country}</MenuItem>)}
       </Select>
     </div>
   }
@@ -112,5 +123,62 @@ function RaceSelector(){
     </div>
 
     {raceComp}
+  </div>)
+}
+
+function RaceResults({race, results, setResults}){
+
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://localhost:2000/results/${race}`).then((res) => res.json())
+    .then((data)=> {
+      let arr = [];
+
+      for(let i in data){
+
+        arr.push(data[i]);
+      }
+
+      setResults(arr);
+      setLoading(false);
+      console.log(arr);
+    });
+  }, [race]);
+
+  if(race == null){
+    return;
+  }
+
+  if(isLoading){
+
+    let arr = [0, 1, 2];
+
+    return (<div className="resultContainer">
+      {arr.map(() => <Card className="resultCard">
+        <CardContent>
+          <Typography variant="body1"><Skeleton sx={{width: '10em'}}/></Typography>
+        </CardContent>
+      </Card>)}
+    </div>)
+  }
+
+  return (<div className="resultContainer">
+      {results.map((result, index) => 
+      <Card className="resultCard">
+        <CardContent>
+          <div className="resultDiv">
+            <div className="leftResultContent">
+              <Typography variant="body1">{(index+1).toString().concat('. ', result.forename, ' ',result.surname)}</Typography>
+            </div>
+            <div style={{width:'10em'}}></div>
+            <div className="rightResultContent">
+              <Typography variant="body1">{result.time != null?result.time:result.status}</Typography>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      )}
   </div>)
 }
