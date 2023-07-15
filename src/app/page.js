@@ -118,7 +118,7 @@ function RaceSelector({season, setSeason, races, setRaces, race, setRace}){
     <div className="WelcomeItem">
       <InputLabel>Season</InputLabel>
       <Select value={season} onChange={handleSeasonChange} label="Season">
-        {seasons.map((season, index) => <MenuItem value={season}>{season}</MenuItem>)}
+        {seasons.map((season, index) => <MenuItem value={season} key={season}>{season}</MenuItem>)}
       </Select>
     </div>
 
@@ -156,7 +156,7 @@ function RaceResults({race, results, setResults}){
     let arr = [0, 1, 2];
 
     return (<div className="resultContainer">
-      {arr.map(() => <Card className="resultCard">
+      {arr.map((elem) => <Card className="resultCard" key={elem}>
         <CardContent>
           <Typography variant="body1"><Skeleton sx={{width: '10em'}}/></Typography>
         </CardContent>
@@ -166,7 +166,7 @@ function RaceResults({race, results, setResults}){
 
   return (<div className="resultContainer">
       {results.map((result, index) => 
-      <Card className="resultCard">
+      <Card className="resultCard" key={index}>
         <CardContent>
           <div className="resultDiv">
             <div className="leftResultContent">
