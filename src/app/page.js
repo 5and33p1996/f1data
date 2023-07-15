@@ -170,11 +170,11 @@ function RaceResults({race, results, setResults}){
         <CardContent>
           <div className="resultDiv">
             <div className="leftResultContent">
-              <Typography variant="body1">{(index+1).toString().concat('. ', result.forename, ' ',result.surname)}</Typography>
+              <Typography variant="h6">{(index+1).toString().concat('. ', result.forename, ' ',result.surname)}</Typography>
             </div>
             <div style={{width:'10em'}}></div>
             <div className="rightResultContent">
-              <Typography variant="body1">{result.time != null?result.time:result.status}</Typography>
+              <Typography variant="h6">{result.time != null?result.time:result.status}</Typography>
             </div>
           </div>
         </CardContent>
