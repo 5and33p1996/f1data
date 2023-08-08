@@ -5,6 +5,9 @@ import "./globals.css";
 import '@fontsource/roboto/300.css';
 import { Box, Card, CardContent, InputLabel, MenuItem, Select, Skeleton, Tab, Tabs, Typography } from "@mui/material";
 
+import { RaceSelector } from "./Components/RaceSelector";
+import { RaceResults } from "./Components/RaceResults";
+
 export default function App() {
 
   return (<div>
@@ -64,121 +67,4 @@ function TabLabel({tabIndex, setTabIndex}){
       </Tabs>
     </div>
   )
-}
-
-function RaceSelector({season, setSeason, races, setRaces, race, setRace}){
-
-  let seasons = new Array();
-  let raceComp;
-
-  const [isLoading, setLoading] = useState(true);
-
-  const handleSeasonChange = (event) => {
-    setSeason(event.target.value);
-  };
-
-  const handleRaceChange = (event) => {
-    setRace(event.target.value);
-    console.log(event.target.value);
-  }
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(`http://localhost:2000/races/${season}`).then((res) => res.json())
-    .then((data) => {
-      let arr = [];
-
-      for(let i in data){
-        arr.push(data[i]);
-      }
-
-      setRaces(arr);
-      setRace(arr[0].raceId);
-      setLoading(false);
-    });
-  }, [season]);
-
-  if (isLoading) {
-    raceComp = <Skeleton variant="text" sx={{ width: '5em', height: '5em' }} />
-  }
-  else {
-    raceComp = <div>
-      <InputLabel>Race</InputLabel>
-      <Select value={race} onChange={handleRaceChange} label="Race">
-        {races.map((iRace) => <MenuItem key={iRace.raceId} value={iRace.raceId}>{iRace.country}</MenuItem>)}
-      </Select>
-    </div>
-  }
-
-  for(let i = 1950; i <= 2023; i++){
-    seasons.push(i);
-  }
-
-  return (<div className="WelcomeContainer">
-    <div className="WelcomeItem">
-      <InputLabel>Season</InputLabel>
-      <Select value={season} onChange={handleSeasonChange} label="Season">
-        {seasons.map((season, index) => <MenuItem value={season} key={season}>{season}</MenuItem>)}
-      </Select>
-    </div>
-
-    {raceComp}
-  </div>)
-}
-
-function RaceResults({race, results, setResults}){
-
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(`http://localhost:2000/results/${race}`).then((res) => res.json())
-    .then((data)=> {
-      let arr = [];
-
-      for(let i in data){
-
-        arr.push(data[i]);
-      }
-
-      setResults(arr);
-      setLoading(false);
-      console.log(arr);
-    });
-  }, [race]);
-
-  if(race == null){
-    return;
-  }
-
-  if(isLoading){
-
-    let arr = [0, 1, 2];
-
-    return (<div className="resultContainer">
-      {arr.map((elem) => <Card className="resultCard" key={elem}>
-        <CardContent>
-          <Typography variant="body1"><Skeleton sx={{width: '10em'}}/></Typography>
-        </CardContent>
-      </Card>)}
-    </div>)
-  }
-
-  return (<div className="resultContainer">
-      {results.map((result, index) => 
-      <Card className="resultCard" key={index}>
-        <CardContent>
-          <div className="resultDiv">
-            <div className="leftResultContent">
-              <Typography variant="h6">{(index+1).toString().concat('. ', result.forename, ' ',result.surname)}</Typography>
-            </div>
-            <div style={{width:'10em'}}></div>
-            <div className="rightResultContent">
-              <Typography variant="h6">{result.time != null?result.time:result.status}</Typography>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      )}
-  </div>)
 }
