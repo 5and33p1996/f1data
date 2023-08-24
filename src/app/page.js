@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { StrictMode, useEffect, useState } from "react";
 import "./globals.css";
 
 import '@fontsource/roboto/300.css';
@@ -11,9 +11,11 @@ import { RaceResults } from "./Components/RaceResults";
 export default function App() {
 
   return (<div>
-    <WelcomeBlock />
+    {/* <StrictMode> */}
+      <WelcomeBlock />
 
-    <DataBlock />
+      <DataBlock />
+    {/* </StrictMode> */}
   </div>);
 }
 
@@ -33,16 +35,19 @@ function DataBlock(){
 
   const [tabIndex, setTabIndex] = useState(1);
 
-  const [season, setSeason] = useState(2023);
-  const [races, setRaces] = useState([]);
-  const [race, setRace] = useState(null);
+  const [race, setRace] = useState("");
   const [results, setResults] = useState([]);
+
+  const handleRaceChange = (event) => {
+    setRace(event.target.value);
+  }
+
+  console.log('Rendering Data Block component');
 
   return (<div>
     
     <div className="raceSelect">
-    <RaceSelector season={season} setSeason={setSeason} races={races} setRaces={setRaces} 
-      race={race} setRace={setRace}/>
+    <RaceSelector race={race} handleRaceChange={handleRaceChange}/>
     </div>
 
     <div className="centerData">
