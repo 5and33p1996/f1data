@@ -8,6 +8,7 @@ import { Box, Card, CardContent, InputLabel, MenuItem, Select, Skeleton, Tab, Ta
 import { RaceSelector } from "./Components/RaceSelector";
 import { RaceResults } from "./Components/RaceResults";
 import { LapTimes } from "./Components/LapTimes";
+import { TabBlock } from "./Components/TabBlock";
 
 export default function App() {
 
@@ -34,8 +35,6 @@ function WelcomeBlock(){
 
 function DataBlock(){
 
-  const [tabIndex, setTabIndex] = useState(1);
-
   const [race, setRace] = useState('');
 
   const handleRaceChange = (event) => {
@@ -52,26 +51,6 @@ function DataBlock(){
     <RaceSelector race={race} handleRaceChange={handleRaceChange} invalidateRace={invalidateRace}/>
     </div>
 
-    <div className="centerData">
-    <TabLabel tabIndex = {tabIndex} setTabIndex = {setTabIndex}/>
-    {tabIndex == 1 ? <RaceResults race={race}/>:<LapTimes/>}
-    </div>
+    <TabBlock race={race}/>
   </div>)
-}
-
-function TabLabel({tabIndex, setTabIndex}){
-  
-  const handleChange = (event, newValue) => {
-    setTabIndex(newValue);
-  }
-
-  return (
-    <div>
-      <Tabs value={tabIndex} onChange={handleChange}>
-
-        <Tab value={1} label="Race Results" />
-        <Tab value={2} label="Lap Times" />
-      </Tabs>
-    </div>
-  )
 }
