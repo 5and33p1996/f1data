@@ -9,6 +9,10 @@ export function RaceResults({race}){
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
     const {data, error} = useSWRImmutable(race === ''?null:`http://localhost:2000/results/${race}`, fetcher);
+
+    if(race === ''){
+      return <Typography variant="h6" gutterBottom>Choose a race to view results</Typography>
+    }
   
     if(!data){
   

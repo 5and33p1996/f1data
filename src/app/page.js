@@ -7,6 +7,7 @@ import { Box, Card, CardContent, InputLabel, MenuItem, Select, Skeleton, Tab, Ta
 
 import { RaceSelector } from "./Components/RaceSelector";
 import { RaceResults } from "./Components/RaceResults";
+import { LapTimes } from "./Components/LapTimes";
 
 export default function App() {
 
@@ -53,7 +54,7 @@ function DataBlock(){
 
     <div className="centerData">
     <TabLabel tabIndex = {tabIndex} setTabIndex = {setTabIndex}/>
-    <RaceResults race={race}/>
+    {tabIndex == 1 ? <RaceResults race={race}/>:<LapTimes/>}
     </div>
   </div>)
 }
