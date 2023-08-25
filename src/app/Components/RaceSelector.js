@@ -3,7 +3,7 @@ import { useState, memo } from "react";
 
 import useSWRImmutable from 'swr/immutable'
 
-export function RaceSelector({race, handleRaceChange}){
+export function RaceSelector({race, handleRaceChange, invalidateRace}){
 
     let seasons = new Array();
     let raceComp;
@@ -16,6 +16,7 @@ export function RaceSelector({race, handleRaceChange}){
     
     const handleSeasonChange = (event) => {
       setSeason(event.target.value);
+      invalidateRace();
     };
 
     const {data, error} = useSWRImmutable(`http://localhost:2000/races/${season}`, fetcher);

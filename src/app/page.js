@@ -35,24 +35,25 @@ function DataBlock(){
 
   const [tabIndex, setTabIndex] = useState(1);
 
-  const [race, setRace] = useState("");
-  const [results, setResults] = useState([]);
+  const [race, setRace] = useState('');
 
   const handleRaceChange = (event) => {
     setRace(event.target.value);
   }
+
+  const invalidateRace = () => setRace('');
 
   console.log('Rendering Data Block component');
 
   return (<div>
     
     <div className="raceSelect">
-    <RaceSelector race={race} handleRaceChange={handleRaceChange}/>
+    <RaceSelector race={race} handleRaceChange={handleRaceChange} invalidateRace={invalidateRace}/>
     </div>
 
     <div className="centerData">
     <TabLabel tabIndex = {tabIndex} setTabIndex = {setTabIndex}/>
-    <RaceResults race={race} results={results} setResults={setResults}/>
+    <RaceResults race={race}/>
     </div>
   </div>)
 }
