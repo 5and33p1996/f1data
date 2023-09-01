@@ -1,5 +1,17 @@
-import { Typography } from "@mui/material";
+import { InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { useState } from "react";
+import { DriverSelect } from "./DriverSelect";
 
-export function LapTimes(){
-    return <Typography variant="h1">Graphs show here!</Typography>
+export function LapTimes({results}){
+
+    const [driver, setDriver] = useState('');
+
+    const handleDriverChange = (event) => {
+        setDriver(event.target.value);
+        console.log('Updated Driver');
+    }
+
+    return (<div>
+        <DriverSelect results = {results} driver={driver} handleDriverChange={handleDriverChange}/>
+    </div>)
 }
