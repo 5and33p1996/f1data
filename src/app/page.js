@@ -43,8 +43,6 @@ function DataBlock(){
 
   const invalidateRace = () => setRace('');
 
-  console.log('Rendering Data Block component');
-
   return (<div>
     
     <div className="raceSelect">

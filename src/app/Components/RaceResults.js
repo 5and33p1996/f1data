@@ -2,19 +2,15 @@ import { useState, useEffect } from "react";
 
 import { Card, CardContent, Typography, Skeleton } from "@mui/material";
 
-import useSWRImmutable from 'swr/immutable'
 
-export function RaceResults({race}){
+
+export function RaceResults({race, results}){
   
-    const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
-    const {data, error} = useSWRImmutable(race === ''?null:`http://localhost:2000/results/${race}`, fetcher);
-
     if(race === ''){
       return <Typography variant="h6" gutterBottom>Choose a race to view results</Typography>
     }
   
-    if(!data){
+    if(!results){
   
       let arr = [0, 1, 2];
   
@@ -28,7 +24,7 @@ export function RaceResults({race}){
     }
   
     return (<div className="resultContainer">
-        {data.map((result, index) => 
+        {results.map((result, index) => 
         <Card className="resultCard" key={index}>
           <CardContent>
             <div className="resultDiv">
