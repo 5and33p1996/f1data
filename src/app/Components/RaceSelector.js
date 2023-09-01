@@ -10,8 +10,6 @@ export function RaceSelector({race, handleRaceChange, invalidateRace}){
 
     const [season, setSeason] = useState(2023);
 
-    const racesURL = `http://localhost:2000/races/${season}`;
-
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     
     const handleSeasonChange = (event) => {
