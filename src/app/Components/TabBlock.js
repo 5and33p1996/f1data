@@ -12,7 +12,7 @@ export function TabBlock({race}){
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-    const {data, error} = useSWRImmutable(race === ''?null:`http://localhost:2000/results/${race}`, fetcher);
+    const {data, error} = useSWRImmutable(race === ''?null:`http://192.168.1.11:2000/results/${race}`, fetcher);
 
     useEffect(() => {
       if(data){
@@ -22,7 +22,7 @@ export function TabBlock({race}){
 
     return (<div className="centerData">
         <TabLabel tabIndex = {tabIndex} setTabIndex = {setTabIndex}/>
-        {tabIndex == 1 ? <RaceResults race={race} results={results}/>:<LapTimes/>}
+        {tabIndex == 1 ? <RaceResults race={race} results={results}/>:<LapTimes results={results}/>}
     </div>)
 }
 
