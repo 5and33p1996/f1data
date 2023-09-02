@@ -1,5 +1,4 @@
 import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
-import { useState } from "react";
 
 export function DriverSelect({results, driverIndex, handleDriverChange}){
 
