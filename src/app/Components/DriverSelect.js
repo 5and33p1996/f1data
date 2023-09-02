@@ -1,11 +1,16 @@
-import { InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { useState } from "react";
 
 export function DriverSelect({results, driver, handleDriverChange}){
-    return (<div>
+
+    return (<div className="driverSelect">
+        <FormControl sx={{ m: 1, minWidth: 120 }} variant="standard">
         <InputLabel>Driver</InputLabel>
-        <Select label='Driver' value={driver} onChange={handleDriverChange}>
-            {results.map((result, index) => <MenuItem key={index} value={result.driverId}>{`${result.forename} ${result.surname}`}</MenuItem>)}
+        <Select value={driver} onChange={handleDriverChange}>
+            {results.map((result, index) => <MenuItem key={index} value={`${result.forename} ${result.surname}`}>
+                {`${result.forename} ${result.surname}`}
+                </MenuItem>)}
         </Select>
+        </FormControl>
     </div>)
 }

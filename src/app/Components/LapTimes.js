@@ -8,7 +8,6 @@ export function LapTimes({results}){
 
     const handleDriverChange = (event) => {
         setDriver(event.target.value);
-        console.log('Updated Driver');
     }
 
     return (<div>
