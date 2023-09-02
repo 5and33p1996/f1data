@@ -9,10 +9,15 @@ export function TabBlock({race}){
 
     const [tabIndex, setTabIndex] = useState(1);
     const [results, setResults] = useState([]);
+    const [driverIndex, setDriverIndex] = useState(-1);
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
     const {data, error} = useSWRImmutable(race === ''?null:`http://192.168.1.11:2000/results/${race}`, fetcher);
+
+    const handleDriverChange = (event) => {
+      setDriverIndex(event.target.value);
+    }
 
     useEffect(() => {
       if(data){
@@ -22,7 +27,7 @@ export function TabBlock({race}){
 
     return (<div className="centerData">
         <TabLabel tabIndex = {tabIndex} setTabIndex = {setTabIndex}/>
-        {tabIndex == 1 ? <RaceResults race={race} results={results}/>:<LapTimes results={results}/>}
+        {tabIndex == 1 ? <RaceResults race={race} results={results}/>:<LapTimes results={results} driverIndex={driverIndex} handleDriverChange={handleDriverChange}/>}
     </div>)
 }
 
