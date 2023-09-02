@@ -27,7 +27,7 @@ export function TabBlock({race}){
 
     return (<div className="centerData">
         <TabLabel tabIndex = {tabIndex} setTabIndex = {setTabIndex}/>
-        {tabIndex == 1 ? <RaceResults race={race} results={results}/>:<LapTimes results={results} driverIndex={driverIndex} handleDriverChange={handleDriverChange}/>}
+        {tabIndex == 1 ? <RaceResults race={race} results={results}/>:<LapTimes race={race} results={results} driverIndex={driverIndex} handleDriverChange={handleDriverChange}/>}
     </div>)
 }
 
