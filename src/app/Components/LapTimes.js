@@ -22,6 +22,7 @@ export function LapTimes({race, results, driverIndex, handleDriverChange}){
 
     return (<div>
         <DriverSelect results = {results} driverIndex={driverIndex} handleDriverChange={handleDriverChange}/>
-        <GraphBlock lapTimes={lapTimes}/>
+        {driverIndex == -1?<div className="graphBlock"><Typography variant="h1">Select a Driver</Typography></div> : <GraphBlock lapTimes={lapTimes}/>
+        }
     </div>)
 }

@@ -55,3 +55,9 @@ body {
 .driverSelect{
   margin: 4em;
 }
+
+.graphBlock{
+  width: 700px;
+  height: 700px;
+  margin: 4em;
+}
