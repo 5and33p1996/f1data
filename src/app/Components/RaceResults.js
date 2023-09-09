@@ -4,13 +4,9 @@ import { Card, CardContent, Typography, Skeleton } from "@mui/material";
 
 
 
-export function RaceResults({race, results}){
+export function RaceResults({isLoading, results}){
   
-    if(race === ''){
-      return <Typography variant="h6" gutterBottom>Choose a race to view results</Typography>
-    }
-  
-    if(!results){
+    if(isLoading){
   
       let arr = [0, 1, 2];
   

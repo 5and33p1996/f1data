@@ -1,10 +1,10 @@
-import { Typography } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from "recharts";
 
-export function GraphBlock({lapTimes}){
+export function GraphBlock({lapTimes, isLoading}){
     
-    if(!lapTimes){
-        return <Typography variant="body1">Loading...</Typography>
+    if(isLoading){
+        return <Skeleton variant="rectangular" width={800} height={500} animation="wave"/>
     }
 
     return(<div className="graphBlock">

@@ -13,7 +13,7 @@ export function TabBlock({race}){
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-    const {data, error} = useSWRImmutable(race == ''?null:`http://192.168.1.11:2000/results/${race}`, fetcher);
+    const {data, error, isLoading} = useSWRImmutable(race == ''?null:`http://192.168.1.11:2000/results/${race}`, fetcher);
 
     const handleDriverChange = (event) => {
       setDriverIndex(event.target.value);
@@ -25,11 +25,12 @@ export function TabBlock({race}){
       if(data){
         setResults(data);
       }
-      else if(race == ''){
+      else if(race == '' || isLoading){
         setDriverIndex(-1);
         setResults([]);
+        console.log("Im here!");
       }
-    }, [data, race]);
+    }, [data, race, isLoading]);
 
     if(race == ''){
 
@@ -38,7 +39,8 @@ export function TabBlock({race}){
       </div>)
     }
     else{
-      comp = tabIndex == 1 ? <RaceResults race={race} results={results}/>:<LapTimes race={race} results={results} driverIndex={driverIndex} handleDriverChange={handleDriverChange}/>
+      comp = tabIndex == 1 ? <RaceResults isLoading={isLoading} results={results}/>:
+        <LapTimes race={race} results={results} driverIndex={driverIndex} handleDriverChange={handleDriverChange} isResultsLoading={isLoading}/>
     }
 
     return (<div className="centerData">
