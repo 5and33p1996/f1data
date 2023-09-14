@@ -4,6 +4,7 @@ import { Tab, Tabs, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import useSWRImmutable from 'swr/immutable'
+import { baseURL } from '../constants';
 
 export function TabBlock({race}){
 
@@ -13,7 +14,7 @@ export function TabBlock({race}){
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-    const {data, error, isLoading} = useSWRImmutable(race == ''?null:`http://192.168.1.11:2000/results/${race}`, fetcher);
+    const {data, error, isLoading} = useSWRImmutable(race == ''?null:`${baseURL}/results/${race}`, fetcher);
 
     const handleDriverChange = (event) => {
       setDriverIndex(event.target.value);

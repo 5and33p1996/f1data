@@ -2,6 +2,7 @@ import { InputLabel, Skeleton, Select, MenuItem } from "@mui/material";
 import { useState, memo } from "react";
 
 import useSWRImmutable from 'swr/immutable'
+import { baseURL } from "../constants";
 
 export function RaceSelector({race, handleRaceChange, invalidateRace}){
 
@@ -17,7 +18,7 @@ export function RaceSelector({race, handleRaceChange, invalidateRace}){
       invalidateRace();
     };
 
-    const {data, error} = useSWRImmutable(`http://192.168.1.11:2000/races/${season}`, fetcher);
+    const {data, error} = useSWRImmutable(`${baseURL}/races/${season}`, fetcher);
   
     if (!data) {
       raceComp = <Skeleton variant="text" sx={{ width: '5em', height: '5em' }} />
