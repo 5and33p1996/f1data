@@ -18,7 +18,7 @@ export function RaceSelector({race, handleRaceChange, invalidateRace}){
       invalidateRace();
     };
 
-    const {data, error} = useSWRImmutable(`${baseURL}/races/${season}`, fetcher);
+    const {data, error} = useSWRImmutable(`${baseURL}/races?season=${season}`, fetcher);
   
     if (!data) {
       raceComp = <Skeleton variant="text" sx={{ width: '5em', height: '5em' }} />

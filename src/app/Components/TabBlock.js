@@ -14,7 +14,7 @@ export function TabBlock({race}){
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-    const {data, error, isLoading} = useSWRImmutable(race == ''?null:`${baseURL}/results/${race}`, fetcher);
+    const {data, error, isLoading} = useSWRImmutable(race == ''?null:`${baseURL}/results?raceId=${race}`, fetcher);
 
     const handleDriverChange = (event) => {
       setDriverIndex(event.target.value);

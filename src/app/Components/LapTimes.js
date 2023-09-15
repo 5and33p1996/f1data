@@ -12,7 +12,7 @@ export function LapTimes({race, results, driverIndex, handleDriverChange, isResu
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-    const {data, err, isLoading} = useSWRImmutable(driverIndex != -1?`${baseURL}/laptimes/${race}/${results[driverIndex].driverId}`:null, fetcher);
+    const {data, err, isLoading} = useSWRImmutable(driverIndex != -1?`${baseURL}/laptimes?raceId=${race}&driverId=${results[driverIndex].driverId}`:null, fetcher);
 
     useEffect(() => {
         if(data){
