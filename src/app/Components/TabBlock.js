@@ -29,7 +29,6 @@ export function TabBlock({race}){
       else if(race == '' || isLoading){
         setDriverIndex(-1);
         setResults([]);
-        console.log("Im here!");
       }
     }, [data, race, isLoading]);
 
